@@ -16,7 +16,7 @@ const Routes: React.FC = () => {
       </View>
     );
   }
-
+  
   if (signed) {
     return partner ? <PartnerRoutes /> : <CustomerRoutes />;
   } else {

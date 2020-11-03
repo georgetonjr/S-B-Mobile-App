@@ -21,7 +21,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStorage() {
       const User = await AsyncStorage.getItem('@RNAuth:user');
-      
       if (User) {
         setUser(JSON.parse(User));
       }

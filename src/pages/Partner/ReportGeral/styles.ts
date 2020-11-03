@@ -1,16 +1,8 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  input: {
-    width: '100%',
-    height:40 ,
-    backgroundColor: '#fff',
-    fontFamily:'sans-serif',
-    fontWeight: 'bold',
-    borderRadius: 2
-  },
   header: {
-  borderColor: '#000',
+    borderColor: '#000',
     backgroundColor:'#3498fd',
     borderRadius:2,
   },
@@ -22,41 +14,67 @@ export default StyleSheet.create({
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
     color:'#fff',
-    
   },
   
-  prodImage:{
-    marginTop:5,
-    width: 150,
+  account: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '3%',
+  },
+
+  
+  picture: {
     height: 150,
-    borderRadius: 200,
-    marginBottom: '8%',
-    alignSelf: 'center'
+    width: 150,
+    borderRadius: 100
   },
 
-  product: {
-    marginBottom: '15%'
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold'
   },
 
-  productInfo: {
-    fontSize: 16,
-    marginLeft: '22%',
-    marginBottom: 2
+  input: {
+    width: '90%',
+    height: 40,
+    backgroundColor: '#fff',
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    borderRadius: 6,
+    alignSelf:'center'
   },
 
-  btnView: {
-    flexDirection: 'row',
-    justifyContent: 'center'
+  txt: {
+    marginLeft: '5%',
+    fontSize: 15,
+    fontWeight:'bold'
   },
 
   btn: {
-    alignItems: 'center',
-    justifyContent:'center',
-    width: 150,
+    width: 300,
     height: 42,
     backgroundColor: '#3498fd',
-    borderRadius: 6,
+    marginTop: 25,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: "center",
   },
 
+  btnTxt: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  modalText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  
+  tex: {
+    fontSize: 17,
+    fontWeight: 'bold'
+  },
 
 });
