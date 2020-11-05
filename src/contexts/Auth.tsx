@@ -21,14 +21,16 @@ export const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStorage() {
       const User = await AsyncStorage.getItem('@RNAuth:user');
+      const Partner = await AsyncStorage.getItem('@RNAuth:partner')
       if (User) {
         setUser(JSON.parse(User));
+        setPartner(JSON.parse(Partner));
       }
       setLoading(false);
     }
     loadStorage();
   }, []);
-  
+
   async function Signin(login: string, senha: string) {
     if (user === null) {
       setLoading(true);
@@ -36,7 +38,11 @@ export const AuthProvider: React.FC = ({ children }) => {
     const response = await auth.Signin(login, senha);
     setUser(response.user);
     setPartner(response.partner);
+
     await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+    if (response.partner)
+      await AsyncStorage.setItem('@RNAuth:partner', JSON.stringify(true));
+
     setLoading(false);
   }
 
@@ -46,6 +52,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
     await AsyncStorage.clear();
     setUser(null);
+    setPartner(null);
     setLoading(false);
   }
 

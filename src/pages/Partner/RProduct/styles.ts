@@ -8,6 +8,16 @@ export default StyleSheet.create({
     borderRadius:2,
 
   },
+
+  text: {
+    marginTop:45,
+    alignSelf:'center',
+    fontSize: 25,
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    color:'#fff',
+  },
+
   container: {
     flex: 1,
   },
@@ -30,14 +40,14 @@ export default StyleSheet.create({
   txt: {
     marginTop: 15,
     marginBottom:1,
-    marginLeft: 45,
+    marginLeft: '5%',
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
     fontSize:15
   },
 
   input: {
-    width: 400,
+    width: '90%',
     height: 40,
     backgroundColor: '#fff',
     fontFamily: 'sans-serif',

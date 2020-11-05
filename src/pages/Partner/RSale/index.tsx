@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Text, View, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import styles from './styles';
 
@@ -10,7 +11,29 @@ const RSale: React.FC = () => {
   const [maxQuant, setMaxQuant] = useState('');
   const [validade, setValidade] = useState('');
   const [valor, setValor] = useState('');
-  const prod = { produto:"selecione"  }
+
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate: any) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+    console.log(date.toISOString())
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const prod = { produto: "selecione" }
+
   return (
     <SafeAreaView>
       <View style={styles.header}>
@@ -20,7 +43,7 @@ const RSale: React.FC = () => {
       <View>
       <Text style={styles.label}>Selecione o produto</Text>
         <Picker
-          style={{ height: 50, width: 350, marginLeft: 60, borderColor: '#000' }}
+          style={{ height: 50, width: '90%', marginLeft: '4%', borderColor: '#000'}}
         >
           <Picker.Item label="Selecione" value="Selecione" />
           <Picker.Item label="pão" value="pao" />
@@ -54,10 +77,17 @@ const RSale: React.FC = () => {
         />
 
         <Text style={styles.label}>Validade da Promoção</Text>
-        <TextInput
-          placeholder='xx/xx/xxxx'
-          style={styles.input}
+        <TouchableOpacity style={styles.label} onPress={showDatepicker}><Text>trocar data</Text></TouchableOpacity>
+        {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
         />
+      )}
 
       </View>
 

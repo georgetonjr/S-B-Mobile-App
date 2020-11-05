@@ -2,8 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex:1
   },
   header: {
     flex: 1,
@@ -24,36 +23,33 @@ export default StyleSheet.create({
     borderRadius: 50,
     marginTop: 30,
     marginBottom: 30,
+    alignSelf: 'center'
   },
 
-  l: {
-    marginRight: 265,
+  label: {
+    marginTop: 15,
+    marginBottom:1,
+    marginLeft: '5%',
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
-    fontSize: 16,
-  },
-
-  s: {
-    marginRight: 265,
-    fontFamily: 'sans-serif',
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontSize:15
   },
 
   input: {
-    width: 300,
+    width: '90%',
+    height: 40,
     backgroundColor: '#EFF7FF',
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
-    borderRadius: 10,
-    marginBottom: 15,
+    borderRadius: 6,
+    alignSelf:'center'
   },
 
   botao: {
     width: 300,
     height: 42,
     backgroundColor: '#3498fd',
-
+    alignSelf:'center',
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
@@ -66,17 +62,18 @@ export default StyleSheet.create({
   },
 
   avisotext: {
-    textAlign: 'center', // <-- the magic
-    fontSize: 10,
+    textAlign: 'center',
+    fontSize: 12,
     fontWeight: 'bold',
     width: 200,
+    alignSelf:'center',
   },
 
   botaoparceiro: {
     width: 300,
     height: 42,
     backgroundColor: '#131985',
-
+    alignSelf:'center',
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
@@ -96,6 +93,8 @@ export default StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center', 
+    marginTop: '5%'
   },
 
   botaotextcon: {

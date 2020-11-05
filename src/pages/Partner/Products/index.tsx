@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 
 import styles from './styles';
 
 const Products: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.txt}>Produtos</Text>
-    </View>
+    <ScrollView>
+       <View style={styles.header}>
+        <Text style={styles.text}> Produtos </Text> 
+      </View>
+
+    </ScrollView>
   );
 }
 export default Products;

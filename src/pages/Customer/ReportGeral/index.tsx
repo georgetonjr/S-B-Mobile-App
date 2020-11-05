@@ -7,7 +7,6 @@ import styles from './styles';
 const ReportGeral: React.FC = () => {
   const {user, signOut} = useContext(AuthContext);
   const [nome, setNome] = useState('');
-  console.log(user)
   return (
     <View>
 

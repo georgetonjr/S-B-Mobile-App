@@ -7,6 +7,13 @@ export default StyleSheet.create({
     borderRadius:2,
   },
 
+  text_header: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 30,
+
+  },
+
   text: {
     marginTop:45,
     alignSelf:'center',
@@ -14,26 +21,25 @@ export default StyleSheet.create({
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
     color:'#fff',
-    
   },
 
   input: {
-    width: 380,
+    width: '90%',
+    height: 40,
     backgroundColor: '#fff',
-    fontFamily:'sans-serif',
+    fontFamily: 'sans-serif',
     fontWeight: 'bold',
-    borderRadius: 10,
-    marginLeft: 60,
-    marginTop:10
-
+    borderRadius: 6,
+    alignSelf: 'center'
   },
 
   label: {
-    marginTop:5,
-    marginLeft: 60,
-    fontSize: 18,
-    fontWeight:"bold",
+    marginTop: 15,
+    marginBottom:1,
+    marginLeft: '5%',
     fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    fontSize:16
   },
   
   botao: {

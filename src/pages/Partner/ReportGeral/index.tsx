@@ -17,7 +17,6 @@ const ReportGeral: React.FC = () => {
     { id: "02", name: "sabão:    ", vendas: "      35" },
   ])
 
-  console.log(user)
   return (
     <View>
 

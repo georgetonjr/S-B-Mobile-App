@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../contexts/Auth';
@@ -41,9 +42,10 @@ const SignIn: React.FC = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
+        
         <Image source={require('../../assets/logo.jpg')} style={styles.logo} />
 
-        <Text style={styles.l}>Login</Text>
+        <Text style={styles.label}>Login</Text>
         <TextInput
           placeholder="CPF ou CNPJ"
           style={styles.input}
@@ -54,7 +56,7 @@ const SignIn: React.FC = () => {
           onBlur={applyMask}
         />
 
-        <Text style={styles.s}>Senha</Text>
+        <Text style={styles.label}>Senha</Text>
         <TextInput
           placeholder="senha"
           style={styles.input}
@@ -86,6 +88,7 @@ const SignIn: React.FC = () => {
           }}>
           <Text style={styles.botaotextpar}>Parceiro</Text>
         </TouchableOpacity>
+          
       </View>
     </SafeAreaView>
   );
