@@ -13,17 +13,17 @@ const RSale: React.FC = () => {
   const [valor, setValor] = useState('');
 
   const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState('date');
+  const [mode, setMode] = useState<string>('date');
   const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate: any) => {
+  const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
     console.log(date.toISOString())
   };
 
-  const showMode = (currentMode) => {
+  const showMode = (currentMode: string) => {
     setShow(true);
     setMode(currentMode);
   };

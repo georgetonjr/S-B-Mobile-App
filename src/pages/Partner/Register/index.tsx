@@ -119,7 +119,7 @@ const Register: React.FC = () => {
     <>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.txt}>Razão Social</Text>
+          <Text style={styles.label}>Razão Social</Text>
           <TextInput
             placeholder="Razão social"
             style={styles.input}
@@ -127,7 +127,7 @@ const Register: React.FC = () => {
             onChangeText={setRazsocial}
           />
 
-          <Text style={styles.txt}>Nome fantasia</Text>
+          <Text style={styles.label}>Nome fantasia</Text>
           <TextInput
             placeholder="Nome fantasia"
             value={nomefant}
@@ -135,7 +135,7 @@ const Register: React.FC = () => {
             style={styles.input}
           />
 
-          <Text style={styles.txt}>CNPJ</Text>
+          <Text style={styles.label}>CNPJ</Text>
           <TextInput
             placeholder="00.000.000/0001-00"
             style={styles.input}
@@ -146,7 +146,7 @@ const Register: React.FC = () => {
             onBlur={() => validacnpj(ccnpj)}
           />
 
-          <Text style={styles.txt}>E-mail</Text>
+          <Text style={styles.label}>E-mail</Text>
           <TextInput
             placeholder="E-mail"
             style={styles.input}
@@ -154,7 +154,7 @@ const Register: React.FC = () => {
             onChangeText={setEmail}
           />
 
-          <Text style={styles.txt}>Telefone</Text>
+          <Text style={styles.label}>Telefone</Text>
           <TextInput
             placeholder="Telefone"
             style={styles.input}
@@ -165,7 +165,7 @@ const Register: React.FC = () => {
             onBlur={() => mTel(telefone, 'tel')}
           />
 
-          <Text style={styles.txt}>Celular</Text>
+          <Text style={styles.label}>Celular</Text>
           <TextInput
             placeholder="Celular"
             style={styles.input}
@@ -176,7 +176,7 @@ const Register: React.FC = () => {
             onBlur={() => mTel(celular, 'cel')}
           />
 
-          <Text style={styles.txt}>CEP</Text>
+          <Text style={styles.label}>CEP</Text>
           <TextInput
             placeholder="CEP"
             style={styles.input}
@@ -187,7 +187,7 @@ const Register: React.FC = () => {
             maxLength={8}
           />
 
-          <Text style={styles.txt}>Endereço</Text>
+          <Text style={styles.label}>Endereço</Text>
           <TextInput
             placeholder="Endereço"
             style={styles.input}
@@ -195,7 +195,7 @@ const Register: React.FC = () => {
             onChangeText={setEndereco}
           />
 
-          <Text style={styles.txt}>Complemento</Text>
+          <Text style={styles.label}>Complemento</Text>
           <TextInput
             placeholder="Complemento"
             style={styles.input}
@@ -203,7 +203,7 @@ const Register: React.FC = () => {
             onChangeText={setComplemento}
           />
 
-          <Text style={styles.txt}>Número da casa/apt</Text>
+          <Text style={styles.label}>Número da casa/apt</Text>
           <TextInput
             placeholder="Número da casa/apt"
             style={styles.input}
@@ -211,7 +211,7 @@ const Register: React.FC = () => {
             onChangeText={setNumero}
           />
 
-          <Text style={styles.txt}>Bairro</Text>
+          <Text style={styles.label}>Bairro</Text>
           <TextInput
             placeholder="Bairro"
             style={styles.input}
@@ -219,7 +219,7 @@ const Register: React.FC = () => {
             onChangeText={setBairro}
           />
 
-          <Text style={styles.txt}>Cidadel</Text>
+          <Text style={styles.label}>Cidade</Text>
           <TextInput
             placeholder="Cidade"
             style={styles.input}
@@ -227,7 +227,7 @@ const Register: React.FC = () => {
             onChangeText={setCidade}
           />
 
-          <Text style={styles.txt}>Estado</Text>
+          <Text style={styles.label}>Estado</Text>
           <TextInput
             placeholder="Estado"
             style={styles.input}
@@ -235,7 +235,7 @@ const Register: React.FC = () => {
             onChangeText={setEstado}
           />
 
-          <Text style={styles.txt}>Senha</Text>
+          <Text style={styles.label}>Senha</Text>
           <TextInput
             placeholder="Senha"
             style={styles.input}
@@ -245,7 +245,7 @@ const Register: React.FC = () => {
             onBlur={checkPass}
           />
 
-          <Text style={styles.txt}>Confirmar senha</Text>
+          <Text style={styles.label}>Confirmar senha</Text>
           <TextInput
             placeholder="Confirmar senha"
             style={styles.input}
@@ -261,7 +261,7 @@ const Register: React.FC = () => {
               onValueChange={(newValue) => setSelection(newValue)}
               style={styles.checkbox}
             />
-            <Text style={styles.label}>Aceitar termos.</Text>
+            <Text style={styles.labelTermos}>Aceitar termos.</Text>
           </View>
 
           <TouchableOpacity style={styles.botao} onPress={handleSubmit}>

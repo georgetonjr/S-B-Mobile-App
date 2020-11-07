@@ -6,11 +6,11 @@ import styles from './styles';
 
 const ReportGeral: React.FC = () => {
   const {user, signOut} = useContext(AuthContext);
-  const [nome, setNome] = useState(user.nome);
-  const [razao, setRazao] = useState(user.Razao);
-  const [cnpj, setCnpj] = useState(user.cnpj);
+  const [nome, setNome] = useState<string>(user.nome);
+  const [razao, setRazao] = useState<string>(user.Razao);
+  const [cnpj, setCnpj] = useState<string>(user.cnpj);
   const [isVisible, setIsVisible] = useState(false);
-
+  
   const [data, setData] = useState([
     { id: "00", name: "Coca-Cola:", vendas: "   20" },
     { id: "01", name: "Tomate:   ", vendas: "     15" },

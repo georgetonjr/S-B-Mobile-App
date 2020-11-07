@@ -86,7 +86,7 @@ const Register: React.FC = () => {
     <>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.txt}>Nome</Text>
+          <Text style={styles.label}>Nome</Text>
           <TextInput
             placeholder="Nome"
             style={styles.input}
@@ -94,7 +94,7 @@ const Register: React.FC = () => {
             onChangeText={setName}
           />
 
-          <Text style={styles.txt}>CPF</Text>
+          <Text style={styles.label}>CPF</Text>
           <TextInput
             placeholder="000.000.000-00"
             keyboardType="numeric"
@@ -107,7 +107,7 @@ const Register: React.FC = () => {
             }}
           />
 
-          <Text style={styles.txt}>Telefone</Text>
+          <Text style={styles.label}>Telefone</Text>
           <TextInput
             placeholder="Telefone"
             style={styles.input}
@@ -117,7 +117,7 @@ const Register: React.FC = () => {
             onBlur={() => mTel(telefone)}
           />
 
-          <Text style={styles.txt}>E-mail</Text>
+          <Text style={styles.label}>E-mail</Text>
           <TextInput
             placeholder="E-mail"
             style={styles.input}
@@ -125,7 +125,7 @@ const Register: React.FC = () => {
             onChangeText={setEmail}
           />
 
-          <Text style={styles.txt}>Senha</Text>
+          <Text style={styles.label}>Senha</Text>
           <TextInput
             placeholder="Senha"
             style={styles.input}
@@ -135,7 +135,7 @@ const Register: React.FC = () => {
             onBlur={checkPass}
           />
 
-          <Text style={styles.txt}>Confirmar senha</Text>
+          <Text style={styles.label}>Confirmar senha</Text>
           <TextInput
             placeholder="Confirmar senha"
             style={styles.input}
@@ -151,7 +151,7 @@ const Register: React.FC = () => {
               onValueChange={(newValue) => setSelection(newValue)}
               style={styles.checkbox}
             />
-            <Text style={styles.label}>Aceitar termos.</Text>
+            <Text style={styles.labelTermos}>Aceitar termos.</Text>
           </View>
 
           <TouchableOpacity style={styles.botao} onPress={handleSubmit}>

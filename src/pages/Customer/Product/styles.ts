@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   
   text: {
-    marginTop:45,
+    marginTop:35,
     alignSelf:'center',
     fontSize: 25,
     fontFamily: 'sans-serif',

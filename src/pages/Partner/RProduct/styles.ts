@@ -66,5 +66,39 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignSelf: "center",
   },
+
+  modal: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+  },
+
+  modalContent: {
+    marginBottom:100
+  },
+
+  modalbtn: {
+    width: 150,
+    height: 42,
+    backgroundColor: '#3498fd',
+    marginTop: 10,
+    borderRadius: 4,
+    alignSelf:'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+  },
+  btnView: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  
+  preview: {
+    marginTop: 35,
+    width: 225,
+    height: 225,
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
   
 });

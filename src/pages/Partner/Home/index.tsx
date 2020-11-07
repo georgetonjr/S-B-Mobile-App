@@ -6,7 +6,6 @@ import styles from './styles';
 
 const Home: React.FC = () => {
   const {user, signOut} = useContext(AuthContext);
-  const [nome, setNome] = useState('');
   
   return (
     <View style={styles.container}>

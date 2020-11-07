@@ -5,37 +5,23 @@ export default StyleSheet.create({
     flex: 1,
   },
 
+  label: {
+    marginTop: 15,
+    marginBottom:1,
+    marginLeft: '5%',
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    fontSize:15
+  },
+
   input: {
-    width: 380,
+    width: '90%',
     height: 40,
     backgroundColor: '#EFF7FF',
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
     borderRadius: 6,
-    alignSelf: 'center',
-  },
-
-  txt: {
-    marginTop: 15,
-    marginBottom: 1,
-    marginLeft: '3.8%',
-    fontFamily: 'sans-serif',
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
-
-  checkboxContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-
-  checkbox: {
-    alignSelf: 'center',
-    marginLeft: '3.8%',
-  },
-
-  label: {
-    margin: 8,
+    alignSelf:'center'
   },
 
   botao: {
@@ -53,5 +39,19 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
+  },
+
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+
+  checkbox: {
+    alignSelf: 'center',
+    marginLeft: '3.8%',
+  },
+
+  labelTermos: {
+    margin: 8,
   },
 });

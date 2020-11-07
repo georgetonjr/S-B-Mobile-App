@@ -14,51 +14,51 @@ const PartnerStack = createBottomTabNavigator();
 
 const PartnerRoutes: React.FC = () => (
   <PartnerStack.Navigator initialRouteName="Home"
-  screenOptions={({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {
-      let iconName;
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
 
-      switch (route.name) {
-        case 'Home':
-          iconName = focused
-          ? 'ios-home'
-          : 'ios-home';
-          break;
-        case 'Produtos':
-          iconName = focused
-          ? 'ios-basket'
-          : 'ios-basket';
-          break;
-        case 'Cadastrar Produto':
-          iconName = focused
-          ? 'ios-add-circle-outline'
-          : 'ios-add-circle-outline';
-          break;
-        case 'Cadastrar Promoção':
-          iconName = focused
-          ? 'ios-gift'
-          : 'ios-gift';
-          break;
-        case 'Voucher':
-          iconName = focused
-          ? 'ios-qr-scanner'
-          : 'ios-qr-scanner';
-          break;
-        case 'Perfil':
-          iconName = focused ? 'ios-person' : 'ios-person';
-          break;
-        default:
-          iconName = 'circle';
-          break;
-      }
+        switch (route.name) {
+          case 'Home':
+            iconName = focused
+            ? 'ios-home'
+            : 'ios-home';
+            break;
+          case 'Produtos':
+            iconName = focused
+            ? 'ios-basket'
+            : 'ios-basket';
+            break;
+          case 'Cadastrar Produto':
+            iconName = focused
+            ? 'ios-add-circle-outline'
+            : 'ios-add-circle-outline';
+            break;
+          case 'Cadastrar Promoção':
+            iconName = focused
+            ? 'ios-gift'
+            : 'ios-gift';
+            break;
+          case 'Voucher':
+            iconName = focused
+            ? 'ios-qr-scanner'
+            : 'ios-qr-scanner';
+            break;
+          case 'Perfil':
+            iconName = focused ? 'ios-person' : 'ios-person';
+            break;
+          default:
+            iconName = 'circle';
+            break;
+        }
 
-      return <Ionicons name={iconName} size={size} color={color} />;
-    },
-  })}
-  tabBarOptions={{
-    activeTintColor: 'tomato',
-    inactiveTintColor: 'gray',
-  }}
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: '#3498fd',
+      inactiveTintColor: '#000',
+    }}
   >
     <PartnerStack.Screen name="Home" component={Home} />
     <PartnerStack.Screen name="Produtos" component={Products} />
