@@ -3,20 +3,24 @@ import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, Modal, Aler
 import AuthContext from '../../../contexts/Auth';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+import {useNavigation} from '@react-navigation/native';
 
 import styles from './styles';
+import Loading from '../../../components/Loading';
 import api from '../../../services/api.service';
 
 const RProduct: React.FC = () => {
-  const [cod, setCod] = useState('');
-  const [fabricante, setFab] = useState('');
-  const [valor, setValor] = useState('');
-  const [quantestoque, setQProduto] = useState('');
-  const [descricaoprod, setDescricaoprod] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
+  const navigation = useNavigation();
+  const [cod, setCod] = useState<string>('');
+  const [fabricante, setFab] = useState<string>('');
+  const [valor, setValor] = useState<string>('');
+  const [quantestoque, setQProduto] = useState<string>('');
+  const [descricaoprod, setDescricaoprod] = useState<string>('');
+  const [tipo, setTipo] = useState<string>('');
+  const [isVisible, setIsVisible] = useState<Boolean>(false);
   const [img, setImg] = useState<any>({uri: 'https://productsb.blob.core.windows.net/productsbb/default.png'});
   const { user } = useContext(AuthContext);
+  const [load, setLoad] = useState<Boolean>(false);
   
   const openImagePickerAsync = async(type: boolean) => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -36,6 +40,7 @@ const RProduct: React.FC = () => {
   };
 
   async function Cadastrar() { 
+    setLoad(true);
     api.post('/cadprod',
       {
         'image': `data:image/jpg;base64,${img.base64}`,
@@ -44,12 +49,22 @@ const RProduct: React.FC = () => {
         valor,
         fabricante,
         quantestoque,
-        "parceiro": user._id,
+        "parceiro": user?._id,
       }
     )
-      .then(() => Alert.alert('Produto cadastrado com sucesso!!'))
-      .catch(() => Alert.alert('Algo aconteceu, por favor tente novamente mais tarde'))
+      .then(() => {
+        setLoad(false);
+        Alert.alert('Produto cadastrado com sucesso!!');
+        navigation.navigate('Produtos')
+      })
+      .catch(() => {
+        Alert.alert('Algo aconteceu, por favor tente novamente mais tarde');
+        setLoad(false);
+      })
   };
+  if (load) {
+    return <Loading />
+  }
 
   return (
     <View style={styles.container}>

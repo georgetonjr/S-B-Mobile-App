@@ -4,7 +4,23 @@ import * as auth from '../services/auth.service';
 
 interface AuthContextData {
   signed: boolean;
-  user: object | null;
+  user: {
+    Razao: string | null;
+    _id: string | null;
+    bairro: string | null;
+    celular: string | null;
+    cep: string | null;
+    cidade: string | null;
+    complemento: string | null;
+    endereco: string | null;
+    estado: string | null;
+    numero: string | null;
+    cnpj: string | null;
+    cpf: string | null;
+    email: string | null; 
+    nome: string | null;
+    telefone: string | null; 
+  } | null;
   partner: boolean | null;
   loading: boolean;
   Signin(login: string, senha: string): Promise<void>;
