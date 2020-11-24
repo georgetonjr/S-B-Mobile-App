@@ -21,7 +21,6 @@ const RProduct: React.FC = () => {
   const [img, setImg] = useState<any>({uri: 'https://productsb.blob.core.windows.net/productsbb/default.png'});
   const { user } = useContext(AuthContext);
   const [load, setLoad] = useState<Boolean>(false);
-  
   const openImagePickerAsync = async(type: boolean) => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
@@ -40,27 +39,36 @@ const RProduct: React.FC = () => {
   };
 
   async function Cadastrar() { 
-    setLoad(true);
-    api.post('/cadprod',
-      {
-        'image': `data:image/jpg;base64,${img.base64}`,
-        'codigo': cod,
-        tipo,
-        valor,
-        fabricante,
-        quantestoque,
-        "parceiro": user?._id,
-      }
-    )
-      .then(() => {
-        setLoad(false);
-        Alert.alert('Produto cadastrado com sucesso!!');
-        navigation.navigate('Produtos')
-      })
-      .catch(() => {
-        Alert.alert('Algo aconteceu, por favor tente novamente mais tarde');
-        setLoad(false);
-      })
+    if (cod === '' ||
+      valor === '' ||
+      fabricante === '' ||
+      quantestoque === ''
+    ) {
+      Alert.alert('Todos os campos devem ser preenchidos');
+    } else {
+      setLoad(true);
+      api.post('/cadprod',
+        {
+          'image': `data:image/jpg;base64,${img.base64}`,
+          'codigo': cod,
+          tipo,
+          valor,
+          fabricante,
+          quantestoque,
+          parceiro: user?._id,
+          mercado: user?.nome,
+        }
+      )
+        .then(() => {
+          setLoad(false);
+          Alert.alert('Produto cadastrado com sucesso!!');
+          navigation.navigate('Produtos')
+        })
+        .catch(() => {
+          Alert.alert('Algo aconteceu, por favor tente novamente mais tarde');
+          setLoad(false);
+        })
+    }
   };
   if (load) {
     return <Loading />
@@ -116,6 +124,7 @@ const RProduct: React.FC = () => {
           style={styles.input}
           value={cod}
           onChangeText={setCod}
+          keyboardType="numeric"
         />
 
         <Text style={styles.txt}>Tipo</Text>

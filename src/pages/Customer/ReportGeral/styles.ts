@@ -30,8 +30,51 @@ export default StyleSheet.create({
   },
 
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold'
-  }
+  },
+
+  input: {
+    width: '90%',
+    height: 40,
+    backgroundColor: '#fff',
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    borderRadius: 6,
+    alignSelf:'center'
+  },
+
+  txt: {
+    marginLeft: '5%',
+    fontSize: 15,
+    fontWeight:'bold'
+  },
+
+  btn: {
+    width: 300,
+    height: 42,
+    backgroundColor: '#3498fd',
+    marginTop: 25,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: "center",
+  },
+
+  btnTxt: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  modalText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  
+  tex: {
+    fontSize: 17,
+    fontWeight: 'bold'
+  },
 
 });

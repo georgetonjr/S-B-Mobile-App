@@ -1,12 +1,25 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-
+import React, {useState} from 'react';
+import { View, ScrollView, Text, Image, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 // import { Container } from './styles';
 
 const listProducts: React.FC = ({ data }: any) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [codigo, setCodigo] = useState<String>(String(data.codigo));
+  const [fabricante, setFabricante] = useState<String>(data.fabricante);
+  const [tipo, setTipo] = useState<String>(data.tipo);
+  const [preco, setPreco] = useState<String>(data.valor);
+  const disabled = () => {
+    if (codigo === data.codigo)
+      return true;
+    else
+      return false;
+  }
+
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
         <View>
           <Image
             source={{ uri: data.img }}
@@ -18,6 +31,62 @@ const listProducts: React.FC = ({ data }: any) => {
           <Text style={styles.preco}>R$ {data.valor}</Text>
         </View>
       </TouchableOpacity>
+
+      <Modal
+        visible={isVisible}
+      >
+        <ScrollView>
+          <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
+            <Text style={{fontWeight: 'bold', fontSize: 22}}>X</Text>
+          </TouchableOpacity>
+
+          <Image
+            source={{ uri: data.img }}
+            style={{height: 150, width: 150, borderRadius: 100, alignSelf: 'center'}}
+          />
+
+          <Text style={styles.text}>codigo</Text>
+          <TextInput style={styles.input} editable={false} value={`${codigo}`} onChange={setCodigo}></TextInput>
+
+          <Text style={styles.text}>Fabricante</Text>
+          <TextInput style={styles.input} value={`${fabricante}`} onChange={setFabricante}></TextInput>
+
+          <Text style={styles.text}>Tipo</Text>
+          <Picker
+            style={{ height: 50, width: '90%', marginLeft: '4%', borderColor: '#000' }}
+            onValueChange={(itemValue: any, itemIndex) => setTipo(itemValue)}
+            selectedValue={tipo}
+          >
+            <Picker.Item label="Tipo" value="" />
+            <Picker.Item label="Padaria" value="Padaria" />
+            <Picker.Item label="Alimentos (cereais e grãos)" value="Alimentos (cereais e grãos)" />
+            <Picker.Item label="Congelados e frios" value="Congelados e frios" />
+            <Picker.Item label="Hortifrúti" value="Hortifrúti" />
+          
+          </Picker>
+
+          <Text style={styles.text}>Preço</Text>
+          <TextInput style={styles.input} value={`R$ ${preco}`} onChange={ e => setPreco(e)}></TextInput>
+          
+          <TouchableOpacity
+              style={{
+                width: '45%',
+                height: 40,
+                backgroundColor: '#3498fd',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                borderRadius: 50,
+                marginTop: '5%',
+              }}
+            >
+              <Text style={{alignSelf: 'center', fontSize: 17, fontWeight: 'bold', color: '#fff'}}>Alterar dados</Text>
+            </TouchableOpacity>
+           
+          
+
+        </ScrollView>
+      </Modal>
+
     </View>
   );
 }
@@ -47,6 +116,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
 
+  },
+
+  input: {
+    width: '95%',
+    height: 40,
+    backgroundColor: '#EFF7FF',
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    borderRadius: 10,
+    alignSelf:'center'
+  },
+
+  text: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginLeft: '3%'
   },
 
 });

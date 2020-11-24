@@ -12,7 +12,7 @@ interface Response {
 export function Signin(Login: string, senha: string): Promise<Response> {
   return new Promise((resolve) => {
     if (Login === '' && senha === '') {
-    return Alert.alert('Todos os campos devem ser preenchidos!!');
+    return ;
   }
   if (Login.length === 14) {
     api.post('/authenticatecustomer', {
@@ -25,7 +25,13 @@ export function Signin(Login: string, senha: string): Promise<Response> {
           partner: false,
         });
       })
-      .catch(error => Alert.alert(error));
+      .catch(e => {
+        if (e.response.status === 400) {
+          Alert.alert('Usuário não encontrado!');
+        } else if (e.response.status === 401) {
+          Alert.alert('Usuário ou senha incorreta!');
+        }
+      });
   }
   else {
     api.post('/authenticatepartner', {
@@ -38,7 +44,13 @@ export function Signin(Login: string, senha: string): Promise<Response> {
           partner: true,
         });
       })
-      .catch(error => Alert.alert(error));
+      .catch(e => {
+        if (e.response.status === 400) {
+          Alert.alert('Usuário não encontrado!');
+        } else if (e.response.status === 401) {
+          Alert.alert('Usuário ou senha incorreta!');
+        } 
+      } );
     }
   });
 }

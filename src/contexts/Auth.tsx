@@ -51,14 +51,18 @@ export const AuthProvider: React.FC = ({ children }) => {
     if (user === null) {
       setLoading(true);
     }
-    const response = await auth.Signin(login, senha);
-    setUser(response.user);
-    setPartner(response.partner);
+    setLoading(true);
+    auth.Signin(login, senha)
+      .then(res => {
+        setUser(res.user);
+        setPartner(res.partner);
 
-    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
-    if (response.partner)
-      await AsyncStorage.setItem('@RNAuth:partner', JSON.stringify(true));
-
+        AsyncStorage.setItem('@RNAuth:user', JSON.stringify(res.user));
+        if (res.partner)
+          AsyncStorage.setItem('@RNAuth:partner', JSON.stringify(true));
+      })
+      .catch(error => console.error(error.message))
+    
     setLoading(false);
   }
 

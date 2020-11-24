@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Alert
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../contexts/Auth';
@@ -22,7 +23,10 @@ const SignIn: React.FC = () => {
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
   async function handleSignIn() {
-    await Signin(login, senha);
+    if (login === '' || senha === '') {
+      Alert.alert('Os campos Login e Senha são obrigatórios!');
+    }else
+      await Signin(login, senha);
   }
 
   function handleNavigate(e: string) {
@@ -39,12 +43,24 @@ const SignIn: React.FC = () => {
     }
   }
 
+  const checkCampo = () => {
+    if (login.length === 14) {
+      return; 
+    }
+    else if (login.length === 18) {
+      return;
+    }
+    else {
+      Alert.alert("Por favor insira um CPF ou CNPJ Valido!");
+    }
+  }
+    
+
   return (
-    <SafeAreaView>
+    <View>
       <View style={styles.container}>
         
         <Image source={require('../../assets/logo.jpg')} style={styles.logo} />
-
         <Text style={styles.label}>Login</Text>
         <TextInput
           placeholder="CPF ou CNPJ"
@@ -54,6 +70,7 @@ const SignIn: React.FC = () => {
           value={login}
           onChangeText={setLogin}
           onBlur={applyMask}
+          onEndEditing={checkCampo}
         />
 
         <Text style={styles.label}>Senha</Text>
@@ -90,7 +107,7 @@ const SignIn: React.FC = () => {
         </TouchableOpacity>
           
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 export default SignIn;

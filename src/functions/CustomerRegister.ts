@@ -1,6 +1,7 @@
 import {Alert} from 'react-native';
 import Api from '../services/api.service';
 
+
 const CustomerRegister = (
   nome: String,
   telefone: String,
@@ -16,11 +17,11 @@ const CustomerRegister = (
     senha,
   })
     .then(() => {
-      Alert.alert('Úsuario cadastrado com sucesso!');
+      Alert.alert('Usuário cadastrado com sucesso!');
     })
     .catch((e: any) => {
       if (e.response.status === 400) {
-        Alert.alert('Úsuario já cadastrado!');
+        Alert.alert('Usuário já cadastrado!');
       }
     });
 };

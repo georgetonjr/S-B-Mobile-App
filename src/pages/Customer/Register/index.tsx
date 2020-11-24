@@ -24,10 +24,11 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [csenha, setCsenha] = useState('');
+  const [isCpfValido, setIsCpfValido] = useState(false);
 
   function checkPass() {
     if (csenha !== '' && senha !== csenha) {
-      Alert.alert('As senhas precisam ser iguais');
+      Alert.alert('Senhas não coincidem!');
       setSenha('');
       setCsenha('');
     }
@@ -40,9 +41,11 @@ const Register: React.FC = () => {
     if (!cpf.isValid(e)) {
       setCcpf('');
       Alert.alert('Por favor digite um CPF valido');
+      setIsCpfValido(false);
     }
     var e = mask.Cpf(ccpf);
     setCcpf(e);
+    setIsCpfValido(true);
   }
 
   function mTel(tel: string) {
@@ -65,20 +68,23 @@ const Register: React.FC = () => {
 
   async function handleSubmit() {
     if (
-      name === '' &&
-      telefone === '' &&
-      ccpf === '' &&
-      email === '' &&
+      name === '' ||
+      telefone === '' ||
+      ccpf === '' ||
+      email === '' ||
       senha === ''
     ) {
       Alert.alert('Por favor preencha todos os campos');
     } else if (!isSelected) {
-      Alert.alert('É necessario aceitar os termos para continuar');
+      Alert.alert('É necessario aceitar os termos para finalizar o cadastro.');
     } else {
-      CustomerRegister(name, telefone, ccpf, email, senha);
-      setTimeout(() => {
-        navigation.navigate('Sempre Mais Barato');
-      }, 2000);
+      if (isCpfValido) {
+        CustomerRegister(name, telefone, ccpf, email, senha);
+        setTimeout(() => {
+          navigation.navigate('Sempre Mais Barato');
+        }, 2000);
+      } else
+        Alert.alert('Por favor digite um cpf valido!')
     }
   }
 
@@ -134,6 +140,7 @@ const Register: React.FC = () => {
             onChangeText={setSenha}
             onBlur={checkPass}
           />
+          <Text style={{marginLeft: '5%', fontWeight: 'bold'}}>A senha precisar ter no minimo 8 caracteres.</Text>
 
           <Text style={styles.label}>Confirmar senha</Text>
           <TextInput

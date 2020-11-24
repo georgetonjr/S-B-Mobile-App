@@ -34,11 +34,12 @@ const PartnerRegister = (
     senha,
   })
     .then(() => {
-      Alert.alert('Úsuario cadastrado com sucesso!');
+      Alert.alert('Usuário cadastrado com sucesso!');
     })
     .catch((e: any) => {
-      if (e.response.status === 400) {
-        Alert.alert('Úsuario já cadastrado!');
+      console.log(e.response.status)
+      if (e.response.status === 401) {
+        Alert.alert('Usuário já cadastrado!');
       }
     });
 };

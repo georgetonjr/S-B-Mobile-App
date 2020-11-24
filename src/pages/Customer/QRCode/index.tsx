@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,67 +7,64 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  Alert,
+  FlatList,
   Modal
 } from 'react-native';
-import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../../contexts/Auth';
+import Loading from '../../../components/Loading';
+import api from '../../../services/api.service';
+import ListVoucher from '../../../components/listVoucherCustomer';
 
 import styles from './style';
-import style from './style';
+
 
 const QRCode: React.FC = () => {
-  const navigation = useNavigation();
-  const {user, signOut} = useContext(AuthContext);
-  const [User, setUser] = useState({});
-  const product = {
-    img: 'https://www.teclasap.com.br/wp-content/uploads/2011/10/coke-2.jpg',
-    name: 'Coca-Cola Lata: 350ml',
-    mercado: 'Supercei',
-    preco: 'R$ 3,49'
-  };
-  const getCurrentDate=(val = 0)=>{
-    var date = new Date().getDate() + val;
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-
-    return date + '/' + month + '/' + year;
-  };
-
-  async function gerarVoucher(productinfo: string) {
-    axios.get(`https://chart.googleapis.com/chart?chs=150%C3%97150&cht=qr&chl=${productinfo}`)
+  const [load, setLoad] = useState<Boolean>(true);
+  const { user } = useContext(AuthContext);
+  const [vouchers, setVouchers] = useState<any>(true);
+  
+  const attProductList = () => {
+    api.get('/voucher/getcustomer', {headers: { '_id': user?._id}}) 
+      .then(response => setVouchers(response.data))
+      .catch(error => console.error(error))
+    
   }
+
+  useEffect(() => {
+    attProductList();
+    setLoad(false);
+  }, [])
+  
+  if (load) {
+    return (<Loading/>);
+  }
+
+
+  
+
+  
   return (
     <SafeAreaView>
       <View style={styles.header}>
-        <Text style={styles.text}> Voucher </Text>
+        <Text style={styles.text}> Vouchers </Text>
       </View>
-      <Text style={{fontSize: 16}}><Text style={{fontWeight: 'bold'}}>Data de Emissão: </Text>{getCurrentDate()}</Text>
-      <Text> </Text>
       <View>
-        <View style={styles.product}>
-          <Image style={styles.prodImage}
-            source={{ uri: product.img }}
+      <FlatList
+        data={vouchers}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <ListVoucher
+            data={item}
           />
-          <Text style={styles.productInfo }><Text style={{fontWeight: 'bold'}}>Estabelecimento: </Text>{product.mercado}</Text>
-          <Text style={styles.productInfo}><Text style={{fontWeight: 'bold'}}>Produto: </Text>{product.name}</Text>
-          <Text style={styles.productInfo}><Text style={{fontWeight: 'bold'}}>Preço: </Text>{product.preco}</Text>
-          <Text style={styles.productInfo }><Text style={{fontWeight: 'bold', color: 'red'}}>Validade: </Text>{getCurrentDate(3)}</Text>
-        </View>
-
-        <View style={styles.btnView}>
-          <TouchableOpacity style={styles.btn} onPress={()=> Alert.alert('Voucher gerado com sucesso!')}>
-              <Text>Gerar Voucher</Text>
-          </TouchableOpacity>
-          <Text>                    </Text>
-          <TouchableOpacity style={styles.btn} onPress={()=>{}}>
-            <Text>Continuar comprando</Text>
-          </TouchableOpacity>
-        </View>
-
+          
+        )}
+        ItemSeparatorComponent={ () => <Separator/>}
+      />
       </View>
+
+
     </SafeAreaView>
   );
 }
+const Separator = () => <View style={{flex:1, height: 1, backgroundColor: '#3498fd' }}/>
 export default QRCode; 

@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+
+import React, { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,60 +7,152 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  Alert,
-  Modal
+  FlatList,
+  Modal,
+  Alert, StyleSheet, Button
 } from 'react-native';
-import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import AuthContext from '../../../contexts/Auth';
+import Loading from '../../../components/Loading';
+import api from '../../../services/api.service';
+import ListVoucher from '../../../components/listVoucher';
 
 import styles from './style';
-import style from './style';
+
 
 const QRCode: React.FC = () => {
-  const navigation = useNavigation();
-  const {user, signOut} = useContext(AuthContext);
-  const [User, setUser] = useState({});
-  const product = {
-    img: 'https://www.teclasap.com.br/wp-content/uploads/2011/10/coke-2.jpg',
-    name: 'Coca-Cola Lata: 350ml',
-    mercado: 'Supercei',
-    preco: 'R$ 3,49'
+  const [load, setLoad] = useState<Boolean>(true);
+  const { user } = useContext(AuthContext);
+  const [vouchers, setVouchers] = useState<any>(true);
+  const [hasPermission, setHasPermission] = useState<any>(null);
+  const [scanned, setScanned] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [voucher, setVoucher] = useState('');
+  const [productVoucher, setProductVoucher] = useState<any>(null);
+  const [active, setActive] = useState<boolean>(true);
+  
+  const attProductList = () => {
+    api.get('/voucher/getpartner', { headers: { '_id': user?._id } })
+      .then(response => setVouchers(response.data))
+      .catch(error => console.error(error))
   };
-  const getCurrentDate=(val = 0)=>{
-    var date = new Date().getDate() + val;
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
 
-    return date + '/' + month + '/' + year;
+  const getVoucher = () => {
+    const _id = voucher;
+    api.get('/voucher/get', { headers: { _id } })
+      .then(response => setProductVoucher(response.data))
+      .catch(error => console.log(error));
   };
 
+  const handleBarCodeScanned = ({ type, data }: any) => {
+    setScanned(true);
+    setVoucher(data);
+    getVoucher();
+  };
+
+  const validarVoucher = () => {
+    setLoad(true);
+    const _id = voucher;
+    api.post('/voucher/validate', { headers: { _id } })
+      .then(response => {
+        setLoad(false);
+        Alert.alert('Voucher Validado com sucesso');
+        setActive(response.data.active);
+      })
+      .catch(error => console.error(error));
+  }
+  
+  useEffect(() => {
+    attProductList();
+    setLoad(false);
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })()
+  }, []);
+  
+  if (load) {
+    attProductList();
+    return (<Loading/>);
+  };
+  
   return (
     <SafeAreaView>
       <View style={styles.header}>
-        <Text style={styles.text}> Voucher </Text>
+        <Text style={styles.text}> Vouchers </Text>
       </View>
-      <Text style={{fontSize: 16}}><Text style={{fontWeight: 'bold'}}>Data de Emissão: </Text>{getCurrentDate()}</Text>
-      <Text> </Text>
+      <TouchableOpacity
+        onPress={() => setIsVisible(!isVisible)}
+        style={{justifyContent: 'center', width: '100%', height: 50, backgroundColor: '#3498dd'}}
+      >
+        <Text style={{alignSelf: 'center', color: 'white', fontSize: 16, fontWeight: 'bold'}}>
+          Validar voucher
+          </Text>
+      </TouchableOpacity>
       <View>
-        <View style={styles.product}>
-          <Image style={styles.prodImage}
-            source={{ uri: product.img }}
+      <FlatList
+        data={vouchers}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <ListVoucher
+            data={item}
           />
-          <Text style={styles.productInfo }><Text style={{fontWeight: 'bold'}}>Estabelecimento: </Text>{product.mercado}</Text>
-          <Text style={styles.productInfo}><Text style={{fontWeight: 'bold'}}>Produto: </Text>{product.name}</Text>
-          <Text style={styles.productInfo}><Text style={{fontWeight: 'bold'}}>Preço: </Text>{product.preco}</Text>
-          <Text style={styles.productInfo }><Text style={{fontWeight: 'bold', color: 'red'}}>Validade: </Text>{getCurrentDate(3)}</Text>
-        </View>
-
-        <View style={styles.btnView}>
-          <TouchableOpacity style={styles.btn} onPress={()=> Alert.alert('Voucher validado com sucesso!')}>
-              <Text>Validar QRCode</Text>
-          </TouchableOpacity>
-        </View>
-
+        )}
+        ItemSeparatorComponent={ () => <Separator/>}
+      />
       </View>
+      <Modal visible={isVisible}>
+        <TouchableOpacity
+          onPress={() => setIsVisible(false)}
+        >
+          <Text
+            style={{ fontSize: 22, fontWeight: 'bold'}}
+          >
+            X
+          </Text>
+        </TouchableOpacity>
+        {!scanned ?  
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+          />
+          :
+          <View>
+            {productVoucher === null ?
+              <View>
+                <Text>Voucher invalido, por favor tente novamente!</Text>
+                {scanned && <Button title={'Ler novamente'} onPress={() => setScanned(false)} />}
+              </View>
+              :
+              <View>
+                <View style={{alignItems: 'center'}}>
+                  <Image
+                    source={{ uri: productVoucher.produto.img }}
+                    style={{height: 200, width: 200, borderRadius: 95, marginBottom: '2%'}}
+                  />
+                </View>
+                <View style={{alignItems: 'center', marginBottom: '10%'}}>
+                  <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom:'1%'}}>Produto: {productVoucher.produto.fabricante} </Text>
+                  <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom:'1%'}}>Preço: R$ {productVoucher.produto.valor}</Text>
+                  <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom:'1%'}}> Estabelecimento: {productVoucher.produto.mercado}</Text>
+                </View>
+                {active
+                  ?
+                  <Button title={'Validar voucher'} onPress={validarVoucher} />
+                  :
+                  <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 18}}>Voucher já validado</Text>
+                }
+              </View>
+            }
+          </View>
+        }
+
+        
+      </Modal>
+
+
     </SafeAreaView>
   );
 }
-export default QRCode;
+const Separator = () => <View style={{flex:1, height: 1, backgroundColor: '#3498fd' }}/>
+export default QRCode; 

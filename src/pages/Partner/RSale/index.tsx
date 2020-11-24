@@ -1,26 +1,60 @@
-import React, { useState } from 'react';
-import { Text, View, SafeAreaView, TextInput, TouchableOpacity, Platform } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Text, View, SafeAreaView, TextInput, TouchableOpacity, Platform, Alert } from 'react-native';
+import AuthContext from '../../../contexts/Auth';
+import api from '../../../services/api.service';
+import Loading from '../../../components/Loading';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import styles from './styles';
 
 const RSale: React.FC = () => {
-  const [produto, setProduto] = useState('');
+  const { user } = useContext(AuthContext);
+  const [products, setProducts] = useState<any>();
+  const [load, setLoad] = useState<Boolean>(true);
+  const [productSelected, setProductSelected] = useState<any>();
   const [quantidade, setQuantidade] = useState('');
   const [maxQuant, setMaxQuant] = useState('');
   const [validade, setValidade] = useState('');
   const [valor, setValor] = useState('');
-
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState<string>('date');
   const [show, setShow] = useState(false);
+
+  const attProductList = () => {
+    api.get('/getprodpartner', { headers: {id: user?._id} }) 
+      .then(response => setProducts(response.data))
+      .catch(error => console.error(error))
+    
+  }
+
+  const limparCampos = () => {
+    setProductSelected('');
+    setQuantidade('');
+    setMaxQuant('');
+    setValor('');
+  }
+
+  const cadastrarPromocao = () => {
+    api.post('/promocao/create', {
+      parceiro: user?._id,
+      produto_id: productSelected,
+      estoque: quantidade,
+      valor,
+      maxpcliente: maxQuant,
+      validade: date,
+    })
+      .then(response => {
+        limparCampos()
+        Alert.alert('Promoção cadastrada com sucesso!');
+      })
+      .catch(err => console.error(err));
+  }
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    console.log(date.toISOString())
   };
 
   const showMode = (currentMode: string) => {
@@ -32,7 +66,14 @@ const RSale: React.FC = () => {
     showMode('date');
   };
 
-  const prod = { produto: "selecione" }
+  useEffect(() => {
+    attProductList();
+    setLoad(false);
+  }, [])
+  
+  if (load) {
+    return (<Loading/>);
+  }
 
   return (
     <SafeAreaView>
@@ -43,15 +84,16 @@ const RSale: React.FC = () => {
       <View>
       <Text style={styles.label}>Selecione o produto</Text>
         <Picker
+          onValueChange={(itemValue: any, itemIndex: any) => setProductSelected(itemValue)}
+          selectedValue={productSelected}
           style={{ height: 50, width: '90%', marginLeft: '4%', borderColor: '#000'}}
         >
-          <Picker.Item label="Selecione" value="Selecione" />
-          <Picker.Item label="pão" value="pao" />
+          {products !== undefined ? products.map((e: any) => <Picker.Item key={e._id}  label={e.fabricante} value={e._id} />) : <Picker.Item label="Selecione" value="Selecione" />}
         </Picker>
 
         <Text style={styles.label}>Valor Promocional</Text>
         <TextInput
-          placeholder='Preço Promocional'
+          placeholder='R$ 0,00'
           style={styles.input}
           keyboardType='number-pad'
           value={valor}
@@ -94,7 +136,7 @@ const RSale: React.FC = () => {
       <View style={{marginTop:15}}>
         <TouchableOpacity
           style={styles.botao}
-          
+          onPress={cadastrarPromocao}
         >
           <Text style={styles.botaotext}>Cadastrar Promoção</Text>
         </TouchableOpacity>

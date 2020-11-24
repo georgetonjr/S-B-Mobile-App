@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Home from '../pages/Customer/Home';
 import Product from '../pages/Customer/Product';
 import QRCode from '../pages/Customer/QRCode';
+import report from '../pages/Customer/ReportGeral'
 
 const CustomerStack = createBottomTabNavigator();
 
@@ -60,6 +61,7 @@ const CustomerRoutes: React.FC = () => (
     <CustomerStack.Screen name="Home" component={Home} />
     <CustomerStack.Screen name="Produtos" component={Product} />
     <CustomerStack.Screen name="Voucher" component={QRCode} />
+    <CustomerStack.Screen name="Perfil" component={report} />
   </CustomerStack.Navigator>
 );
 export default CustomerRoutes;

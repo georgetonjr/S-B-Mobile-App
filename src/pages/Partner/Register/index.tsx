@@ -23,7 +23,7 @@ const Register: React.FC = () => {
   const [isSelected, setSelection] = useState(false);
   const [razsocial, setRazsocial] = useState('');
   const [nomefant, setNomefant] = useState('');
-  const [ccnpj, setCcnpj] = useState('');
+  const [ccnpj, setCcnpj] = useState<string>('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [celular, setCelular] = useState('');
@@ -36,13 +36,20 @@ const Register: React.FC = () => {
   const [estado, setEstado] = useState('');
   const [senha, setSenha] = useState('');
   const [csenha, setCsenha] = useState('');
+  const [isCnpjValido, setIsCnpjValido] = useState(false);
+  const [comprimentoCnpj, setComprimentoCnpj] = useState(14);
 
   function validacnpj(e: string) {
     if (!cnpj.isValid(e)) {
       Alert.alert('Por favor digite um CNPJ valido.');
+      setIsCnpjValido(false);
+      setComprimentoCnpj(14);
+      setCcnpj(" ");
     }
     var e = mask.Cnpj(ccnpj);
+    setComprimentoCnpj(18)
     setCcnpj(e);
+    setIsCnpjValido(true);
   }
 
   function mTel(tel: string, e: string) {
@@ -60,6 +67,8 @@ const Register: React.FC = () => {
 
   const CEP = async () => {
     const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    if (response.data.erro)
+      Alert.alert('CEP não encontrado!');
     const {bairro, logradouro, localidade, uf} = response.data;
     setBairro(bairro);
     setEndereco(logradouro);
@@ -69,7 +78,7 @@ const Register: React.FC = () => {
 
   function checkPass() {
     if (csenha !== '' && senha !== csenha) {
-      Alert.alert('As senhas precisam ser iguais');
+      Alert.alert('Senhas não coincidem!');
       setSenha('');
       setCsenha('');
     }
@@ -80,38 +89,41 @@ const Register: React.FC = () => {
 
   function handleSubmit() {
     if (
-      razsocial === '' &&
-      nomefant === '' &&
-      ccnpj === '' &&
-      email === '' &&
-      telefone === '' &&
-      celular === '' &&
-      cep === '' &&
-      senha === ''
+      razsocial === '' ||
+      nomefant === '' ||
+      ccnpj === '' ||
+      email === '' ||
+      telefone === '' ||
+      celular === '' ||
+      cep === '' ||
+      senha === '' ||
+      cidade === ''
     ) {
       Alert.alert('Por favor preecha todos os campos');
     } else if (!isSelected) {
       Alert.alert('É necessario aceitar os termos para continuar');
     } else {
-      PartnerRegister(
-        razsocial,
-        nomefant,
-        ccnpj,
-        email,
-        telefone,
-        celular,
-        cep,
-        endereco,
-        complemento,
-        numero,
-        bairr,
-        cidade,
-        estado,
-        senha,
-      );
-      setTimeout(() => {
-        navigation.navigate('Sempre Mais Barato');
-      }, 2000);
+      if (isCnpjValido) {
+        PartnerRegister(
+          razsocial,
+          nomefant,
+          ccnpj,
+          email,
+          telefone,
+          celular,
+          cep,
+          endereco,
+          complemento,
+          numero,
+          bairr,
+          cidade,
+          estado,
+          senha,
+        );
+        setTimeout(() => {
+          navigation.navigate('Sempre Mais Barato');
+        }, 2000);
+      }
     }
   }
 
@@ -142,7 +154,7 @@ const Register: React.FC = () => {
             keyboardType="numeric"
             value={ccnpj}
             onChangeText={setCcnpj}
-            maxLength={19}
+            maxLength={comprimentoCnpj}
             onBlur={() => validacnpj(ccnpj)}
           />
 
@@ -193,6 +205,15 @@ const Register: React.FC = () => {
             style={styles.input}
             value={endereco}
             onChangeText={setEndereco}
+            editable={false}
+          />
+
+          <Text style={styles.label}>Número</Text>
+          <TextInput
+            placeholder="Número"
+            style={styles.input}
+            value={numero}
+            onChangeText={setNumero}
           />
 
           <Text style={styles.label}>Complemento</Text>
@@ -203,20 +224,13 @@ const Register: React.FC = () => {
             onChangeText={setComplemento}
           />
 
-          <Text style={styles.label}>Número da casa/apt</Text>
-          <TextInput
-            placeholder="Número da casa/apt"
-            style={styles.input}
-            value={numero}
-            onChangeText={setNumero}
-          />
-
           <Text style={styles.label}>Bairro</Text>
           <TextInput
             placeholder="Bairro"
             style={styles.input}
             value={bairr}
             onChangeText={setBairro}
+            editable={false}
           />
 
           <Text style={styles.label}>Cidade</Text>
@@ -225,6 +239,7 @@ const Register: React.FC = () => {
             style={styles.input}
             value={cidade}
             onChangeText={setCidade}
+            editable={false}
           />
 
           <Text style={styles.label}>Estado</Text>
@@ -233,6 +248,7 @@ const Register: React.FC = () => {
             style={styles.input}
             value={estado}
             onChangeText={setEstado}
+            editable={false}
           />
 
           <Text style={styles.label}>Senha</Text>
@@ -244,6 +260,8 @@ const Register: React.FC = () => {
             onChangeText={setSenha}
             onBlur={checkPass}
           />
+
+          <Text style={{marginLeft: '5%', fontWeight: 'bold'}}>A senha precisar ter no minimo 8 caracteres.</Text>
 
           <Text style={styles.label}>Confirmar senha</Text>
           <TextInput
