@@ -31,9 +31,15 @@ const QRCode: React.FC = () => {
   }
 
   useEffect(() => {
+    let mounted = true;
+
     attProductList();
     setLoad(false);
-  }, [])
+
+    return function cleanup(): void {
+      mounted = false;
+    }
+  }, [vouchers])
   
   if (load) {
     return (<Loading/>);

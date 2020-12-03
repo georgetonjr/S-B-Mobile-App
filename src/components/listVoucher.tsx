@@ -14,12 +14,12 @@ const listVoucher: React.FC = ({ data }: any) => {
 
     api.post('/voucher/validate', { headers: { _id } })
       .then(response => {
+        console.log(response.data)
         Alert.alert('Voucher Validado com sucesso');
         setActive(response.data.active);
       })
       .catch(error => console.error(error));
   }
-
   return (
     <View style={styles.container}>
      
@@ -62,14 +62,14 @@ const listVoucher: React.FC = ({ data }: any) => {
         <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold' }}>{data.produto.fabricante} </Text>
         <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold' }}>R$ {data.produto.valor}</Text>
         <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold' }}>Cliente: {data.cliente.nome}</Text>
-        {active ?
+        {active && data.active ?
           <View>
             <Text style={{ alignSelf: 'center', marginTop: 4, fontSize: 18, fontWeight: 'bold' }}>Voucher</Text>
             <Image
               style={{ alignSelf: 'center', width: 250, height: 250, marginTop: 4 }}
               source={{ uri: `${qrCode}${data._id}` }}
             />
-            <Button title='Validar Voucher' onPress={validarVoucher}/>
+            <Button title='Validar Voucher' onPress={validarVoucher} disabled={data.active === true ? false : true} />
           </View>
           
           : <Text style={{alignSelf: 'center', fontSize: 25, fontWeight: 'bold', marginTop: '5%'}}>Voucher já validado!</Text>}
@@ -78,7 +78,6 @@ const listVoucher: React.FC = ({ data }: any) => {
   );
 
 }
-
 
 const styles = StyleSheet.create({
   container: {

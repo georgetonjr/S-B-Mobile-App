@@ -13,7 +13,7 @@ import report from '../pages/Partner/ReportGeral';
 const PartnerStack = createBottomTabNavigator();
 
 const PartnerRoutes: React.FC = () => (
-  <PartnerStack.Navigator initialRouteName="Home"
+  <PartnerStack.Navigator initialRouteName="Produtos"
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
@@ -60,10 +60,8 @@ const PartnerRoutes: React.FC = () => (
       inactiveTintColor: '#000',
     }}
   >
-    <PartnerStack.Screen name="Home" component={Home} />
     <PartnerStack.Screen name="Produtos" component={Products} />
     <PartnerStack.Screen name="Cadastrar Produto" component={RProduct} />
-    <PartnerStack.Screen name="Cadastrar Promoção" component={RSale} />
     <PartnerStack.Screen name="Voucher" component={ValidQRCode} />
     <PartnerStack.Screen name="Perfil" component={report} />
   </PartnerStack.Navigator>

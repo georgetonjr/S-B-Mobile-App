@@ -11,7 +11,7 @@ import report from '../pages/Customer/ReportGeral'
 const CustomerStack = createBottomTabNavigator();
 
 const CustomerRoutes: React.FC = () => (
-  <CustomerStack.Navigator initialRouteName="Home"
+  <CustomerStack.Navigator initialRouteName="Produtos"
   screenOptions={({ route }) => ({
     tabBarIcon: ({ focused, color, size }) => {
       let iconName;
@@ -58,7 +58,6 @@ const CustomerRoutes: React.FC = () => (
     inactiveTintColor: '#000',
   }}
   >
-    <CustomerStack.Screen name="Home" component={Home} />
     <CustomerStack.Screen name="Produtos" component={Product} />
     <CustomerStack.Screen name="Voucher" component={QRCode} />
     <CustomerStack.Screen name="Perfil" component={report} />

@@ -4,7 +4,7 @@ export default StyleSheet.create({
 
   Prod: {
     borderColor: '#000',
-    backgroundColor:'#3498fd',
+    backgroundColor:'#3498ae',
     borderRadius:2,
   },
   

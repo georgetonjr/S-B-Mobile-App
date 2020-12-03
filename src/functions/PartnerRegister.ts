@@ -40,6 +40,8 @@ const PartnerRegister = (
       console.log(e.response.status)
       if (e.response.status === 401) {
         Alert.alert('Usuário já cadastrado!');
+      } else {
+        Alert.alert('Usuário já cadastrado!'); 
       }
     });
 };

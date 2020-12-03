@@ -1,6 +1,8 @@
 import React, {useContext, useState} from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, Modal, FlatList, Alert } from 'react-native';
 import AuthContext from '../../../contexts/Auth';
+import api from '../../../services/api.service';
+import ListReport from '../../../components/listReport';
 
 import styles from './styles';
 
@@ -10,12 +12,24 @@ const ReportGeral: React.FC = () => {
   const [razao, setRazao] = useState<any>(user.Razao);
   const [cnpj, setCnpj] = useState<any>(user.cnpj);
   const [isVisible, setIsVisible] = useState(false);
+  const [vouchers, setVouchers] = useState<any>(true);
+  var contador = 1;
+
+  const getVoucher = () => {
+    api.get('/voucher/getpartnerreport', { headers: { '_id': user?._id } })
+      .then(response => {
+        setVouchers(response.data);
+      })
+      .catch(error => console.error(error))
+  };
   
-  const [data, setData] = useState([
-    { id: "00", name: "Coca-Cola:", vendas: "   20" },
-    { id: "01", name: "Tomate:   ", vendas: "     15" },
-    { id: "02", name: "sabão:    ", vendas: "      35" },
-  ])
+  React.useEffect((): void => {
+    (function () {
+      getVoucher()
+    })
+    ()
+  }, [vouchers]);
+
 
   return (
     <View>
@@ -43,11 +57,14 @@ const ReportGeral: React.FC = () => {
         />  
         <TouchableOpacity
           style={styles.btn}
-          onPress={()=> setIsVisible(true)}
+          onPress={() => {
+            setIsVisible(true)
+            getVoucher();
+          }}
         >
           <Text style={styles.btnTxt}> Relatorio de vendas</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={() => Alert.alert('Dados alterados com sucesso!')}>
           <Text style={styles.btnTxt}> Alterar dados</Text>
         </TouchableOpacity>
 
@@ -62,9 +79,18 @@ const ReportGeral: React.FC = () => {
         animationType="slide"
       >
         <Text style={{alignSelf:'center' ,marginTop:'3%',fontSize: 20, fontWeight:'bold', marginBottom: '4%'}}> Relatorio de Vendas</Text>
-
-        <Image style={{alignSelf:'center' }}source={require('../../../assets/Screenshot_1.png')} />
         
+        <FlatList
+        data={vouchers}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <ListReport
+            data={item}
+          />
+        )}
+        ItemSeparatorComponent={ () => <Separator/>}
+      />
+
         <TouchableOpacity style={styles.btn} onPress={() => setIsVisible(false)}>
           <Text style={styles.btnTxt}> Voltar</Text>
         </TouchableOpacity>
@@ -74,4 +100,5 @@ const ReportGeral: React.FC = () => {
   );
 }
 
+const Separator = () => <View style={{flex:1, height: 1, backgroundColor: '#3498fd' }}/>
 export default ReportGeral;

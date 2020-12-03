@@ -20,8 +20,13 @@ const Products: React.FC = () => {
   }
 
   useEffect(() => {
+    let mounted = true
     attProductList();
     setLoad(false);
+
+    return function cleanup(): void {
+      mounted = false
+    }
   }, [])
   
   if (load) {
@@ -32,6 +37,7 @@ const Products: React.FC = () => {
     <>
       <View style={styles.header}>
         <Text style={styles.text}> Produtos </Text> 
+        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize:16, alignSelf: 'center'}}>{ user?.nome}</Text>
       </View>
 
       <Button title='atualizar' onPress={attProductList}/>

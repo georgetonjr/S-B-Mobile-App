@@ -106,7 +106,7 @@ const QRCode: React.FC = () => {
           onPress={() => setIsVisible(false)}
         >
           <Text
-            style={{ fontSize: 22, fontWeight: 'bold'}}
+            style={{ fontSize: 25, fontWeight: 'bold', marginLeft: 1}}
           >
             X
           </Text>

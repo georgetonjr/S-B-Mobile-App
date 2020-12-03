@@ -11,7 +11,7 @@ const listPromo: React.FC = ({ data }: any) => {
   const { user } = useContext(AuthContext);
 
   const getProduct = (id: any) => {
-    api.get('/produto/getprodutopromo', { headers: { _id: id } })
+    api.get('/produto/getprodutoprom', { headers: { _id: id } })
       .then(e => setProduto(e.data))
       .catch(err => console.error(err))
   }

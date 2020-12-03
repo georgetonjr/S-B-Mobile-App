@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
-  Alert
+  Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../contexts/Auth';
@@ -58,7 +59,7 @@ const SignIn: React.FC = () => {
 
   return (
     <View>
-      <View style={styles.container}>
+      <KeyboardAvoidingView contentContainerStyle={styles.container} behavior="padding" enabled>
         
         <Image source={require('../../assets/logo.jpg')} style={styles.logo} />
         <Text style={styles.label}>Login</Text>
@@ -75,7 +76,7 @@ const SignIn: React.FC = () => {
 
         <Text style={styles.label}>Senha</Text>
         <TextInput
-          placeholder="senha"
+          placeholder="Senha"
           style={styles.input}
           secureTextEntry={true}
           value={senha}
@@ -106,7 +107,7 @@ const SignIn: React.FC = () => {
           <Text style={styles.botaotextpar}>Parceiro</Text>
         </TouchableOpacity>
           
-      </View>
+        </KeyboardAvoidingView>
     </View>
   );
 };

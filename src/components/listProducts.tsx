@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { View, ScrollView, Text, Image, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { View, ScrollView, Text, Image, StyleSheet, Alert, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-// import { Container } from './styles';
+import api from '../services/api.service';
 
 const listProducts: React.FC = ({ data }: any) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -9,6 +9,7 @@ const listProducts: React.FC = ({ data }: any) => {
   const [fabricante, setFabricante] = useState<String>(data.fabricante);
   const [tipo, setTipo] = useState<String>(data.tipo);
   const [preco, setPreco] = useState<String>(data.valor);
+  const [quantestoque, setQuantestoque] = useState<String>(data.quantestoque);
   const disabled = () => {
     if (codigo === data.codigo)
       return true;
@@ -16,6 +17,34 @@ const listProducts: React.FC = ({ data }: any) => {
       return false;
   }
 
+  const alterarDados = () => {
+    if (
+      fabricante === data.fabricante &&
+      tipo === data.tipo &&
+      preco === data.valor &&
+      quantestoque === data.quantestoque
+    ) {
+      return;
+    }else{
+      api.post('/produto/update', {
+        "_id": data._id,
+        fabricante,
+        tipo,
+        valor: preco,
+        quantestoque
+      })
+        .then(() => Alert.alert('Dados alterados com sucesso!') )
+        .catch(error => console.log(error))
+    }
+  }
+
+  const desativarProd = () => {
+    api.post('produto/desativar', {
+      "_id": data._id,
+    })
+      .then(res => console.log(res.data))
+      .catch(error => console.log(error))
+  }
 
   return (
     <View style={styles.container}>
@@ -46,10 +75,10 @@ const listProducts: React.FC = ({ data }: any) => {
           />
 
           <Text style={styles.text}>codigo</Text>
-          <TextInput style={styles.input} editable={false} value={`${codigo}`} onChange={setCodigo}></TextInput>
+          <TextInput style={styles.input} editable={false} value={`${codigo}`} onChangeText={setCodigo}></TextInput>
 
           <Text style={styles.text}>Fabricante</Text>
-          <TextInput style={styles.input} value={`${fabricante}`} onChange={setFabricante}></TextInput>
+          <TextInput style={styles.input} value={`${fabricante}`} onChangeText={setFabricante}></TextInput>
 
           <Text style={styles.text}>Tipo</Text>
           <Picker
@@ -66,7 +95,10 @@ const listProducts: React.FC = ({ data }: any) => {
           </Picker>
 
           <Text style={styles.text}>Preço</Text>
-          <TextInput style={styles.input} value={`R$ ${preco}`} onChange={ e => setPreco(e)}></TextInput>
+          <TextInput style={styles.input} value={preco} onChangeText={setPreco}></TextInput>
+
+          <Text style={styles.text}>Estoque</Text>
+          <TextInput style={styles.input} value={quantestoque} onChangeText={setQuantestoque}></TextInput>
           
           <TouchableOpacity
               style={{
@@ -77,10 +109,26 @@ const listProducts: React.FC = ({ data }: any) => {
                 justifyContent: 'center',
                 borderRadius: 50,
                 marginTop: '5%',
-              }}
-            >
-              <Text style={{alignSelf: 'center', fontSize: 17, fontWeight: 'bold', color: '#fff'}}>Alterar dados</Text>
-            </TouchableOpacity>
+            }}
+            onPress={alterarDados}
+          >
+            <Text style={{alignSelf: 'center', fontSize: 17, fontWeight: 'bold', color: '#fff'}}>Alterar dados</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={{
+                width: '45%',
+                height: 40,
+                backgroundColor: '#3498fd',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                borderRadius: 50,
+                marginTop: '5%',
+            }}
+            onPress={desativarProd}
+          >
+            <Text style={{alignSelf: 'center', fontSize: 15, fontWeight: 'bold', color: '#fff'}}>Desativar/Ativar produto </Text>
+          </TouchableOpacity>
            
           
 

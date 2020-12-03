@@ -4,8 +4,6 @@ import api from '../services/api.service';
 import AuthContext from '../contexts/Auth';
 import qrCode from '../services/qrCode.service';
 
-// import { Container } from './styles';
-
 const listProducts: React.FC = ({ data }: any) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [qrC, setQrC] = useState<string>('');
@@ -120,7 +118,7 @@ const styles = StyleSheet.create({
   },
 
   fabricante: {
-    marginLeft: '42 %',
+    alignSelf: 'center',
     fontWeight: 'bold',
     fontSize: 17,
   },
